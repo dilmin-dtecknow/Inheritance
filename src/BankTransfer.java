@@ -11,10 +11,16 @@ public class BankTransfer extends Payment{
 
     @Override
     public void processPayment() {
-        super.processPayment();
         System.out.println("Initiating bank transfer to <"+bankName+">" +
                 " using account <"+accountNumber+">" +
                 " with reference <"+referenceCode+">");
         markAsCompleted();
+    }
+
+    @Override
+    public boolean validate() {
+        boolean valid = bankName !=null && !bankName.isEmpty() && accountNumber !=null && !accountNumber.isEmpty() && accountNumber.length() >=6;
+        System.out.println("Validating Bank Transfer "+(valid ? "OK" : "NO, FAILED"));
+        return valid;
     }
 }

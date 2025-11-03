@@ -10,11 +10,17 @@ public class CardPayment extends Payment {
 
     @Override
     public void processPayment() {
-        super.processPayment();
         System.out.println("Authorizing card payment for <"+carHolderName+"> ...");
     }
 
-    public void validateCard(){
-        System.out.println("Validating card number format...");
+//    public void validateCard(){
+//        System.out.println("Validating card number format...");
+//    }
+
+    @Override
+    public boolean validate() {
+        boolean valid = cardNumber != null && cardNumber.length()>=12 && expiryDate !=null;
+        System.out.println("Validating card for "+carHolderName+": "+(valid ? "OK" : "NO, INVALID"));
+        return valid;
     }
 }

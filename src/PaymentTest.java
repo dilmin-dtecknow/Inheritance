@@ -9,33 +9,46 @@ public class PaymentTest {
         DebitCardPayment dcp = new DebitCardPayment(50.0, "LKR", "4222222222222222", "Jane Doe", "11/24", 1000.0);
 
         // Call processPayment and generateReceipt on each
-        System.out.println("=== Individual Payments ===");
-        cod.processPayment();
-        cod.generateReceipt();
-
-        System.out.println("...............");
-
-        bt.processPayment();
-        bt.generateReceipt();
-
-        System.out.println("...............");
-
-        ccp.processPayment();
-        ccp.generateReceipt();
-
-        System.out.println("...............");
-
-        dcp.processPayment();
-        dcp.generateReceipt();
+//        System.out.println("=== Individual Payments ===");
+//        cod.processPayment();
+//        cod.generateReceipt();
+//
+//        System.out.println("...............");
+//
+//        bt.processPayment();
+//        bt.generateReceipt();
+//
+//        System.out.println("...............");
+//
+//        ccp.processPayment();
+//        ccp.generateReceipt();
+//
+//        System.out.println("...............");
+//
+//        dcp.processPayment();
+//        dcp.generateReceipt();
 
         System.out.println("\n..........................");
-        List<Payment> payments = new ArrayList<>();
+        List<Payable> payments = new ArrayList<>();
         payments.add(cod);
         payments.add(bt);
         payments.add(ccp);
         payments.add(dcp);
-        for (Payment payment : payments) {
-            System.out.println("--------------------------------------------------");
+
+        for (Payable payable : payments) {
+            System.out.println("\n--------------------------------------------------");
+            System.out.println("Reference: " + payable.getReference());
+            System.out.println("Validation: " + payable.validate());
+
+            if (payable instanceof Discount) {
+                Discount discount = (Discount) payable;
+                discount.applyDiscount(10);
+                System.out.println("Final Payable: "+discount.finalAmount());
+            }
+
+            //downcast to Payment to call shared methods
+
+            Payment payment = (Payment) payable;
             payment.processPayment();
             payment.generateReceipt();
             System.out.println("Status: " + payment.getStatus());
